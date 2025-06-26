@@ -5,3 +5,5 @@ db.sqlite3
 user/__pycache__/
 .env
 
+Fasaldhan_API_Collection.postman_collection.json
+Fasaldhan_Development_Environment.postman_environment.json
