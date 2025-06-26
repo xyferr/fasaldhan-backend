@@ -1,0 +1,7 @@
+myenv/
+# Ignore Python bytecode files
+fasaldhan/__pycache__/
+db.sqlite3
+user/__pycache__/
+
+
