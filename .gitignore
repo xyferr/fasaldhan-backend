@@ -3,5 +3,5 @@ myenv/
 fasaldhan/__pycache__/
 db.sqlite3
 user/__pycache__/
-
+.env
 

@@ -1,0 +1,957 @@
+{
+	"info": {
+		"_postman_id": "fasaldhan-api-collection",
+		"name": "Fasaldhan API Collection",
+		"description": "Complete API collection for Fasaldhan Contract Farming Platform",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "fasaldhan-apis"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "User Registration",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"farmer123\",\n    \"email\": \"farmer@example.com\",\n    \"password\": \"securepassword123\",\n    \"password_confirm\": \"securepassword123\",\n    \"first_name\": \"John\",\n    \"last_name\": \"Doe\",\n    \"user_type\": \"farmer\",\n    \"phone_number\": \"+1234567890\",\n    \"location\": \"Punjab, India\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/auth/register/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"register",
+								""
+							]
+						},
+						"description": "Register a new user (farmer or buyer)"
+					}
+				},
+				{
+					"name": "User Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    const responseJson = pm.response.json();",
+									"    pm.environment.set('access_token', responseJson.access);",
+									"    pm.environment.set('refresh_token', responseJson.refresh);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"farmer123\",\n    \"password\": \"securepassword123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/auth/login/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"login",
+								""
+							]
+						},
+						"description": "Login user and get JWT tokens"
+					}
+				},
+				{
+					"name": "Refresh Token",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"refresh\": \"{{refresh_token}}\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/auth/token/refresh/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"token",
+								"refresh",
+								""
+							]
+						},
+						"description": "Refresh access token using refresh token"
+					}
+				}
+			],
+			"description": "User authentication endpoints"
+		},
+		{
+			"name": "User Management",
+			"item": [
+				{
+					"name": "Get User Profile",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/auth/profile/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"profile",
+								""
+							]
+						},
+						"description": "Get current user profile"
+					}
+				},
+				{
+					"name": "Update User Profile",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"first_name\": \"John Updated\",\n    \"last_name\": \"Doe Updated\",\n    \"phone_number\": \"+1234567891\",\n    \"location\": \"Updated Location\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/auth/profile/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"profile",
+								""
+							]
+						},
+						"description": "Update current user profile"
+					}
+				},
+				{
+					"name": "Get Dashboard",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/dashboard/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"dashboard",
+								""
+							]
+						},
+						"description": "Get user dashboard data"
+					}
+				}
+			],
+			"description": "User profile management endpoints"
+		},
+		{
+			"name": "Farmer Profile",
+			"item": [
+				{
+					"name": "Get Farmer Profile",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/farmer-profile/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"farmer-profile",
+								""
+							]
+						},
+						"description": "Get farmer profile details"
+					}
+				},
+				{
+					"name": "Create/Update Farmer Profile",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"land_size\": 10.5,\n    \"farming_type\": \"organic\",\n    \"aadhaar_number\": \"123456789012\",\n    \"farm_address\": \"Village ABC, District XYZ\",\n    \"pincode\": \"123456\",\n    \"experience_years\": 15,\n    \"specializations\": \"Rice, Wheat, Sugarcane\",\n    \"certifications\": \"Organic Farming Certificate\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/farmer-profile/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"farmer-profile",
+								""
+							]
+						},
+						"description": "Create or update farmer profile"
+					}
+				}
+			],
+			"description": "Farmer profile management endpoints"
+		},
+		{
+			"name": "Buyer Profile",
+			"item": [
+				{
+					"name": "Get Buyer Profile",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/buyer-profile/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"buyer-profile",
+								""
+							]
+						},
+						"description": "Get buyer profile details"
+					}
+				},
+				{
+					"name": "Create/Update Buyer Profile",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"company_name\": \"ABC Agriculture Ltd\",\n    \"gst_number\": \"27AAPFU0939F1ZV\",\n    \"business_type\": \"wholesaler\",\n    \"business_address\": \"123 Business Street, Commercial Area\",\n    \"pincode\": \"110001\",\n    \"website\": \"https://abcagriculture.com\",\n    \"annual_turnover\": 5000000.00,\n    \"preferred_crops\": \"Rice, Wheat, Pulses\",\n    \"contact_person_name\": \"Manager Name\",\n    \"contact_person_designation\": \"Purchase Manager\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/buyer-profile/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"buyer-profile",
+								""
+							]
+						},
+						"description": "Create or update buyer profile"
+					}
+				}
+			],
+			"description": "Buyer profile management endpoints"
+		},
+		{
+			"name": "Contract System",
+			"item": [
+				{
+					"name": "Categories",
+					"item": [
+						{
+							"name": "Get All Categories",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{access_token}}"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/contract/categories/",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"contract",
+										"categories",
+										""
+									]
+								},
+								"description": "Get all crop categories"
+							}
+						},
+						{
+							"name": "Create Category",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{access_token}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Grains\",\n    \"description\": \"All types of grain crops\"\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/api/contract/categories/",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"contract",
+										"categories",
+										""
+									]
+								},
+								"description": "Create a new crop category"
+							}
+						}
+					],
+					"description": "Crop category management"
+				},
+				{
+					"name": "Crops",
+					"item": [
+						{
+							"name": "Get All Crops",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{access_token}}"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/contract/crops/",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"contract",
+										"crops",
+										""
+									]
+								},
+								"description": "Get all crops"
+							}
+						},
+						{
+							"name": "Create Crop",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{access_token}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Basmati Rice\",\n    \"category\": 1,\n    \"variety\": \"1121\",\n    \"season\": \"kharif\",\n    \"description\": \"Premium quality basmati rice\"\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/api/contract/crops/",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"contract",
+										"crops",
+										""
+									]
+								},
+								"description": "Create a new crop"
+							}
+						}
+					],
+					"description": "Crop management"
+				},
+				{
+					"name": "Crop Listings",
+					"item": [
+						{
+							"name": "Get All Listings",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{access_token}}"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/contract/listings/",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"contract",
+										"listings",
+										""
+									]
+								},
+								"description": "Get all crop listings"
+							}
+						},
+						{
+							"name": "Create Listing",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{access_token}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"crop\": 1,\n    \"quantity\": 1000,\n    \"unit\": \"kg\",\n    \"price_per_unit\": 45.50,\n    \"location\": \"Punjab, India\",\n    \"harvest_date\": \"2025-10-15\",\n    \"quality_grade\": \"A\",\n    \"description\": \"High quality organic basmati rice\",\n    \"is_organic\": true\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/api/contract/listings/",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"contract",
+										"listings",
+										""
+									]
+								},
+								"description": "Create a new crop listing"
+							}
+						},
+						{
+							"name": "Get Listing by ID",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{access_token}}"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/contract/listings/{{listing_id}}/",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"contract",
+										"listings",
+										"{{listing_id}}",
+										""
+									]
+								},
+								"description": "Get specific listing by ID"
+							}
+						}
+					],
+					"description": "Crop listing management"
+				},
+				{
+					"name": "Contracts",
+					"item": [
+						{
+							"name": "Get All Contracts",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{access_token}}"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/contract/contracts/",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"contract",
+										"contracts",
+										""
+									]
+								},
+								"description": "Get all contracts"
+							}
+						},
+						{
+							"name": "Create Contract",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{access_token}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"listing\": 1,\n    \"quantity\": 500,\n    \"price_per_unit\": 45.50,\n    \"delivery_date\": \"2025-11-01\",\n    \"terms_and_conditions\": \"Standard contract terms apply\",\n    \"payment_terms\": \"50% advance, 50% on delivery\"\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/api/contract/contracts/",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"contract",
+										"contracts",
+										""
+									]
+								},
+								"description": "Create a new contract"
+							}
+						},
+						{
+							"name": "Get Contract by ID",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{access_token}}"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/contract/contracts/{{contract_id}}/",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"contract",
+										"contracts",
+										"{{contract_id}}",
+										""
+									]
+								},
+								"description": "Get specific contract by ID"
+							}
+						}
+					],
+					"description": "Contract management"
+				},
+				{
+					"name": "Reviews",
+					"item": [
+						{
+							"name": "Get All Reviews",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{access_token}}"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/contract/reviews/",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"contract",
+										"reviews",
+										""
+									]
+								},
+								"description": "Get all reviews"
+							}
+						},
+						{
+							"name": "Create Review",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{access_token}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"contract\": 1,\n    \"rating\": 5,\n    \"comment\": \"Excellent quality crops delivered on time\"\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/api/contract/reviews/",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"contract",
+										"reviews",
+										""
+									]
+								},
+								"description": "Create a new review"
+							}
+						}
+					],
+					"description": "Review and rating management"
+				}
+			],
+			"description": "Contract farming system endpoints"
+		},
+		{
+			"name": "Analytics & ML",
+			"item": [
+				{
+					"name": "Dashboard Data",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/contract/dashboard/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"contract",
+								"dashboard",
+								""
+							]
+						},
+						"description": "Get dashboard analytics data"
+					}
+				},
+				{
+					"name": "Market Trends",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/contract/market-trends/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"contract",
+								"market-trends",
+								""
+							]
+						},
+						"description": "Get market trends data"
+					}
+				},
+				{
+					"name": "Predict Price",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"crop_name\": \"Rice\",\n    \"quantity\": 1000,\n    \"quality_grade\": \"A\",\n    \"location\": \"Punjab\",\n    \"season\": \"kharif\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/contract/ml/predict-price/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"contract",
+								"ml",
+								"predict-price",
+								""
+							]
+						},
+						"description": "Predict crop price using ML"
+					}
+				},
+				{
+					"name": "Assess Quality",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"crop_name\": \"Rice\",\n    \"moisture_content\": 12.5,\n    \"protein_content\": 7.2,\n    \"grain_size\": \"long\",\n    \"color\": \"white\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/contract/ml/assess-quality/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"contract",
+								"ml",
+								"assess-quality",
+								""
+							]
+						},
+						"description": "Assess crop quality using ML"
+					}
+				},
+				{
+					"name": "Predict Yield",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"crop_name\": \"Rice\",\n    \"land_size\": 10.5,\n    \"soil_type\": \"clay\",\n    \"irrigation_type\": \"drip\",\n    \"fertilizer_used\": \"organic\",\n    \"location\": \"Punjab\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/contract/ml/predict-yield/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"contract",
+								"ml",
+								"predict-yield",
+								""
+							]
+						},
+						"description": "Predict crop yield using ML"
+					}
+				}
+			],
+			"description": "Analytics and Machine Learning endpoints"
+		},
+		{
+			"name": "API Overview",
+			"item": [
+				{
+					"name": "Root API Overview",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								""
+							]
+						},
+						"description": "Get basic API information and available endpoints"
+					}
+				},
+				{
+					"name": "Detailed API Overview",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/overview/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"overview",
+								""
+							]
+						},
+						"description": "Get detailed API overview with all endpoints"
+					}
+				}
+			],
+			"description": "API documentation and overview endpoints"
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8000",
+			"type": "string"
+		},
+		{
+			"key": "access_token",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "refresh_token",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "listing_id",
+			"value": "1",
+			"type": "string"
+		},
+		{
+			"key": "contract_id",
+			"value": "1",
+			"type": "string"
+		}
+	]
+}

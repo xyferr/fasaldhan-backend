@@ -27,15 +27,53 @@ def api_overview(request):
             'Login': '/api/auth/login/',
             'Refresh Token': '/api/auth/token/refresh/',
             'User Profile': '/api/auth/profile/',
+            'Dashboard': '/api/dashboard/',
         },
         'Profiles': {
             'Farmer Profile': '/api/farmer-profile/',
             'Buyer Profile': '/api/buyer-profile/',
         },
-        'Other': {
+        'Contract System': {
+            'Categories': '/api/contract/categories/',
+            'Crops': '/api/contract/crops/',
+            'Crop Listings': '/api/contract/listings/',
+            'Contracts': '/api/contract/contracts/',
+            'Reviews': '/api/contract/reviews/',
+            'Dashboard': '/api/contract/dashboard/',
+            'Market Trends': '/api/contract/market-trends/',
+        },
+        'Machine Learning (Simplified)': {
+            'Price Prediction': '/api/contract/ml/predict-price/',
+            'Quality Assessment': '/api/contract/ml/assess-quality/',
+            'Yield Prediction': '/api/contract/ml/predict-yield/',
+        },
+        'Advanced Features': {
+            'Crop Price History': '/api/contract/crops/{id}/price_history/',
+            'Market Analysis': '/api/contract/crops/{id}/market_analysis/',
+            'Upload Crop Images': '/api/contract/listings/{id}/upload_image/',
+            'ML Insights': '/api/contract/listings/{id}/ml_insights/',
+            'Contract Progress': '/api/contract/contracts/{id}/update_progress/',
+            'Complete Contract': '/api/contract/contracts/{id}/complete_contract/',
+            'Risk Analysis': '/api/contract/contracts/{id}/risk_analysis/',
+        },
+        'Core APIs': {
             'API Overview': '/api/overview/',
-            'DRF Auth': '/api/',
-            'Admin': '/admin/',
+            'DRF Browsable API': '/api/',
+            'Admin Panel': '/admin/',
+        },
+        'System Info': {
+            'Version': '1.0.0',
+            'ML Status': 'Simplified (Heavy ML disabled for better performance)',
+            'Features': [
+                'User Authentication & Profiles',
+                'Crop Listings & Management', 
+                'Contract Creation & Tracking',
+                'Progress Updates with Images',
+                'Reviews & Ratings System',
+                'Market Trends & Analytics',
+                'Simplified ML Predictions',
+                'Dashboard & Insights'
+            ]
         }
     }
     return Response(api_urls)
